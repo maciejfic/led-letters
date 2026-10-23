@@ -30,6 +30,8 @@
   hole (IN) to its exit hole (OUT), in a fixed order. The firmware knows that order and where every
   LED sits, so effects line up with the real sign.
 - Glyphs plug together with JST SM 3-pin connectors (OUT of one glyph into IN of the next).
+- The IN and OUT holes in the case back are **10 x 14 mm** (glyphs where IN and OUT share one hole:
+  **14 x 16 mm**), so a soldered JST SM 3-pin plug passes through.
 
 > **JST SM connectors are rated 3 A per contact.** The 5 V and GND current of every glyph after it
 > flows through each connector, so keep the total under 3 A (the default 500 mA limit is well below).
