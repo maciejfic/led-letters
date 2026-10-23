@@ -153,18 +153,27 @@ td:first-child { font-weight: 600; white-space: nowrap; }
 <!-- 3 -->
 <section class="page">
   <div class="stephead"><span class="num">3</span><h2>Connect the glyphs</h2></div>
-  <div class="coming"><b style="color:var(--ink)">Soldering and wiring guide coming soon.</b><br>
-    It will show how to fit the LED strip into each glyph, join the glyphs and connect the controller.</div>
+  <div class="note"><b>Follow the soldering guide</b>
+    The <b>LED Letters soldering guide</b> (LED_Letters_Soldering_Guide.pdf, published with the 3D files on
+    MakerWorld) shows, for every glyph, how to fit the LED strip pieces, where each wire goes and how many
+    LEDs each piece has.</div>
 
   <h3>Good to know before you start</h3>
   <ul>
-    <li>The glyphs are connected in a <b>chain</b>. The controller's wire goes into the <b>first glyph</b>,
+    <li>Each glyph has two short cables with <b>3-pin plugs</b>: <b>IN</b> and <b>OUT</b>. The glyphs simply plug
+      together: the OUT of one glyph into the IN of the next.</li>
+    <li>The glyphs form a <b>chain</b>. The controller's cable goes into the IN of the <b>first glyph</b>,
       that one passes the signal on to the second, and so on.</li>
     <li>The order of the chain is the order you will enter in the app, and normally the order you read the sign,
       from left to right.</li>
-    <li>Each glyph has a standard number of LEDs. If you fit yours differently, that's fine: you can tell the app
-      the real number later.</li>
+    <li>Inside every glyph the LED pieces are wired in a fixed order. Follow the guide's order: the app knows it,
+      so effects like Rainbow sweep and Fire move across your sign the right way.</li>
   </ul>
+
+  <div class="note warn"><b>LED counts are not yet verified</b>
+    The LED count of each glyph in the guide and in the app is the planned number, and has not been checked on
+    every built glyph yet. Count the LEDs in yours. If the number is different, that's fine: you enter the real
+    number in the app during set-up (step 4).</div>
 </section>
 
 <!-- 4 -->

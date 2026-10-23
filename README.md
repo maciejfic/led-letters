@@ -10,7 +10,7 @@ Firmware and phone app for modular 3D-printed LED letters. An ESP32-C3 drives WS
 </p>
 
 The printable glyphs (case, LED insert and diffuser for every letter, digit and symbol) are on
-**MakerWorld: [LED Letters](MAKERWORLD-URL)**. This repository holds everything else.
+**MakerWorld** (coming soon), together with the soldering guide. This repository holds everything else.
 
 ## Features
 
@@ -29,7 +29,7 @@ The printable glyphs (case, LED insert and diffuser for every letter, digit and 
 
 ## Quick start
 
-1. **Print and build** the glyphs from MakerWorld and chain them (data in → data out).
+1. **Print and build** the glyphs from MakerWorld following the soldering guide, and chain them (OUT → IN).
 2. **Wire** the first glyph to an ESP32-C3: data to **GPIO 4**, 5 V and GND. See [docs/hardware.md](docs/hardware.md).
 3. **Flash** the firmware from your browser, no software to install: download
    `led-letters-esp32c3-full.bin` from [Releases](https://github.com/maciejfic/led-letters/releases)
@@ -44,6 +44,7 @@ The step-by-step guide with screenshots is [docs/user-guide/led-letters-user-gui
 |---|---|
 | ESP32-C3 board with USB-C | e.g. ESP32-C3 SuperMini. Any C3 board works; pins are set in `config.h`. |
 | WS2812B LED strip, 5 V | 10 mm wide, 60 LEDs/m (16.6 mm pitch) to fit the glyph inserts. |
+| JST SM 3-pin connectors | One pair per glyph (IN and OUT), so the glyphs plug together. |
 | 5 V power supply | USB from a phone charger for small signs; a stable 5 V supply for 5–6 glyphs. |
 | 330 Ω resistor (optional) | In series with the data line, close to the first LED. |
 

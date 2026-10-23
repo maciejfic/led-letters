@@ -161,7 +161,9 @@ void layoutInit(const String& spec) {
       float len = polyLength(p, seg.numPts);
       for (uint16_t i = 0; i < count && numLeds < MAX_LEDS; i++, numLeds++) {
         float x, y;
-        if (seg.numPts == 1) { x = p[0][0]; y = p[0][1]; }
+        // at the planned count the points are the LED centres; otherwise spread the LEDs along them
+        if (count == seg.numPts) { x = p[i][0]; y = p[i][1]; }
+        else if (seg.numPts == 1) { x = p[0][0]; y = p[0][1]; }
         else pointAlong(p, seg.numPts, count == 1 ? len / 2 : len * i / (count - 1), x, y);
         rawX[numLeds] = originX + x;
         rawY[numLeds] = y;

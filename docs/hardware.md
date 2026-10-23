@@ -6,7 +6,8 @@
 |---|---|
 | ESP32-C3 board with USB-C | Tested with an ESP32-C3 "SuperMini" style board (USB-C, BOOT and RESET buttons). |
 | WS2812B LED strip, 5 V | 10 mm wide, 60 LEDs per metre, cut into the pocket lengths of each glyph insert. |
-| Wire | Three conductors between glyphs: 5 V, data, GND. |
+| Connectors | JST SM 3-pin pigtails on every glyph's IN and OUT, so the glyphs plug together. |
+| Wire | 20 AWG silicone wire for the jumpers behind the insert; 0.8 mm silver-plated copper wire for pad-to-pad links on curves and for bridges across shared slots. |
 | 5 V power supply | See [Power](#power). |
 | 330 Ω resistor (optional) | In series with the data line, as close to the first LED as possible. |
 | 470–1000 µF capacitor (optional) | Across 5 V and GND at the start of the chain. Protects the first LED at power-on. |
@@ -26,7 +27,12 @@
 - **Glyph 1** is the one the controller's data wire goes into. In the app you add glyphs in this
   chain order, which is also the left-to-right order of the sign.
 - Every glyph is wired the same way inside: its strip pieces are joined in one chain from its entry
-  hole to its exit hole.
+  hole (IN) to its exit hole (OUT), in a fixed order. The firmware knows that order and where every
+  LED sits, so effects line up with the real sign.
+- Glyphs plug together with JST SM 3-pin connectors (OUT of one glyph into IN of the next).
+
+> **JST SM connectors are rated 3 A per contact.** The 5 V and GND current of every glyph after it
+> flows through each connector, so keep the total under 3 A (the default 500 mA limit is well below).
 
 ### Pins
 
@@ -64,8 +70,13 @@ System) and scales brightness down automatically.
 
 ## Soldering the glyphs
 
-> **Coming soon.** Step-by-step soldering of the LED strip into the glyph inserts, joining the
-> glyphs and connecting the controller will be added here.
+The step-by-step soldering guide (**LED_Letters_Soldering_Guide.pdf**) is published with the 3D files
+on MakerWorld. For every glyph it shows the strip pieces in wiring order, where each jumper and link
+goes, and the LED count of each piece.
+
+> **Note:** the LED counts in the soldering guide (and the app's defaults) are planned values and are
+> not yet verified on every built glyph. If yours has a different number, enter the real count in the
+> app during set-up.
 
 ## Light sensor (planned)
 

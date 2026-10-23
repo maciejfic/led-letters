@@ -65,7 +65,7 @@ def layout(spec):
             acc += c
             upto = (acc * n + total // 2) // total
             cnt, given = upto - given, upto
-            for x, y in along(path, cnt) if cnt else []:
+            for x, y in (path if cnt == len(path) else along(path, cnt) if cnt else []):
                 X.append(ox + x); Y.append(y); Sy.append(si)
         P.append(1 if g['pulses'] else 0)
         ox += g['w'] + 20
@@ -77,7 +77,7 @@ def layout(spec):
 
 join = {}   # simulated join from the setup hotspot: any non-empty password succeeds after 4 s
 state = {'apSsid': 'LED-Letters-Setup', 'on': True, 'mode': 1, 'bri': 140, 'speed': 50, 'c1': '#ff7828', 'c2': '#ff003c', 'auto': 0,
-         'maxma': 500, 'lm': [2, 7, 3, 2, 7, 3], 'sign': 'Heart:27,M:30,Amp:27,K:22', 'ap': False,
+         'maxma': 500, 'lm': [2, 7, 3, 2, 7, 3], 'sign': 'Heart:26,M:30,Amp:32,K:22', 'ap': False,
          'ssid': 'Home', 'ip': '192.168.1.181', 'host': 'led-letters', 'rssi': -61, 'fw': '2.0.0', 'up': 7380}
 
 
