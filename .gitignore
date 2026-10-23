@@ -1,0 +1,17 @@
+# Build output
+build/
+*.bin
+*.elf
+*.map
+
+# Local tooling and notes
+.claude/
+CONTEXT.md
+__pycache__/
+*.pyc
+
+# OS
+.DS_Store
+
+# Publishing notes (not part of the repo)
+makerworld/

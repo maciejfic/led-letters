@@ -1,0 +1,47 @@
+name: Build firmware
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+
+permissions:
+  contents: write   # attach binaries to releases
+
+env:
+  ESP32_INDEX: https://espressif.github.io/arduino-esp32/package_esp32_index.json
+  FQBN: esp32:esp32:esp32c3:CDCOnBoot=cdc
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: arduino/setup-arduino-cli@v2
+
+      - name: Install ESP32 core and FastLED
+        run: |
+          arduino-cli core update-index --additional-urls "$ESP32_INDEX"
+          arduino-cli core install esp32:esp32@3.3.10 --additional-urls "$ESP32_INDEX"
+          arduino-cli lib install "FastLED@3.10.3"
+
+      - name: Compile
+        run: arduino-cli compile --fqbn "$FQBN" --output-dir build firmware/LedLetters
+
+      - name: Collect binaries
+        run: |
+          cp build/LedLetters.ino.merged.bin led-letters-esp32c3-full.bin
+          cp build/LedLetters.ino.bin        led-letters-esp32c3-update.bin
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: led-letters-firmware
+          path: "*.bin"
+
+      - name: Attach to release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: "*.bin"

@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>LED Letters – Set-up guide</title>
+<!-- Source of led-letters-user-guide.pdf. Build: see docs/user-guide/README.md -->
+<style>
+@page { size: A4; margin: 16mm 16mm 18mm; }
+@page :first { margin: 0; }
+:root { --ink:#141414; --muted:#5f6368; --faint:#8a8a8a; --rule:#e6e6e4; --soft:#f5f5f3; --accent:#e8703a; --warn-bg:#fff8e6; --warn-ink:#7a4a00; }
+* { box-sizing: border-box; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { margin: 0; font: 10.5pt/1.5 -apple-system, "Helvetica Neue", Helvetica, Arial, sans-serif; color: var(--ink); }
+h1, h2, h3 { line-height: 1.2; margin: 0; letter-spacing: -0.01em; }
+h2 { font-size: 20pt; font-weight: 700; margin-bottom: 4mm; }
+h3 { font-size: 12.5pt; font-weight: 650; margin: 6mm 0 2mm; }
+p { margin: 0 0 2.5mm; }
+ul, ol { margin: 0 0 3mm; padding-left: 5mm; }
+li { margin-bottom: 1.4mm; }
+b { font-weight: 650; }
+.muted { color: var(--muted); }
+.small { font-size: 9pt; color: var(--muted); }
+code, .mono { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 9.5pt; background: var(--soft); padding: 0.3mm 1.4mm; border-radius: 1.2mm; }
+.page { break-after: page; }
+.page:last-child { break-after: auto; }
+
+/* cover */
+.cover { height: 297mm; background: #000; color: #fff; padding: 26mm 20mm 20mm; display: flex; flex-direction: column; }
+.cover .kicker { color: #9a9a9a; font-size: 11pt; letter-spacing: .02em; }
+.cover h1 { font-size: 44pt; font-weight: 750; margin: 4mm 0 5mm; letter-spacing: -0.02em; }
+.cover .lead { font-size: 14pt; color: #cfcfcf; max-width: 140mm; line-height: 1.45; }
+.cover .art { margin: 22mm 0 0; height: 64mm; overflow: hidden; border-radius: 4mm; }
+.cover .art img { width: 100%; display: block; margin-top: -40mm; }
+.cover .foot { margin-top: auto; display: flex; justify-content: space-between; color: #8d8d8d; font-size: 9.5pt; border-top: 0.3mm solid #2a2a2a; padding-top: 5mm; }
+
+/* contents */
+.toc { list-style: none; padding: 0; margin: 6mm 0 0; counter-reset: s; }
+.toc li { display: flex; gap: 4mm; padding: 3.2mm 0; border-top: 0.3mm solid var(--rule); font-size: 11.5pt; }
+.toc li span:first-child { color: var(--accent); font-weight: 700; width: 9mm; }
+.toc li .d { color: var(--muted); font-size: 9.5pt; margin-left: auto; }
+
+/* steps */
+.stephead { display: flex; align-items: baseline; gap: 4mm; margin-bottom: 4mm; }
+.num { color: var(--accent); font-weight: 750; font-size: 20pt; }
+.split { display: grid; grid-template-columns: 1fr 58mm; gap: 9mm; align-items: start; margin-bottom: 6mm; break-inside: avoid; }
+.split.wide { grid-template-columns: 1fr 1fr; }
+.phone { width: 58mm; border-radius: 6mm; border: 1.4mm solid #1b1b1b; overflow: hidden; background: #000; box-shadow: 0 0 0 0.3mm #d0d0d0; }
+.phone img { display: block; width: 100%; }
+.cap { font-size: 8.5pt; color: var(--faint); margin-top: 2mm; text-align: center; }
+.pair { display: flex; gap: 6mm; justify-content: center; margin: 3mm 0 5mm; break-inside: avoid; }
+.pair figure { margin: 0; }
+.wideimg { width: 100%; border-radius: 3mm; display: block; }
+
+ol.steps { list-style: none; padding: 0; counter-reset: st; }
+ol.steps > li { counter-increment: st; position: relative; padding-left: 9mm; margin-bottom: 3mm; }
+ol.steps > li::before { content: counter(st); position: absolute; left: 0; top: 0.2mm; width: 6mm; height: 6mm; border-radius: 50%;
+  background: var(--ink); color: #fff; font-size: 8.5pt; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+
+.note { background: var(--soft); border-radius: 2.5mm; padding: 3.5mm 4.5mm; margin: 4mm 0; break-inside: avoid; }
+.note.warn { background: var(--warn-bg); color: var(--warn-ink); }
+.note b:first-child { display: block; margin-bottom: 1mm; }
+.coming { border: 0.4mm dashed #c9c9c9; border-radius: 3mm; padding: 8mm; color: var(--muted); text-align: center; margin: 6mm 0; }
+
+table { width: 100%; border-collapse: collapse; margin: 2mm 0 5mm; break-inside: avoid; }
+th { text-align: left; font-size: 9pt; color: var(--muted); font-weight: 600; padding: 2mm 3mm 2mm 0; border-bottom: 0.3mm solid var(--rule); }
+td { padding: 2.4mm 3mm 2.4mm 0; border-bottom: 0.3mm solid var(--rule); vertical-align: top; }
+td:first-child { font-weight: 600; white-space: nowrap; }
+.kbd { display: inline-block; border: 0.3mm solid #bdbdbd; border-bottom-width: 0.7mm; border-radius: 1.2mm; padding: 0 1.6mm; font-size: 9pt; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<!-- Cover -->
+<section class="page cover">
+  <div class="kicker">Set-up guide</div>
+  <h1>LED Letters</h1>
+  <p class="lead">Turn your printed letters into a glowing sign. Install the software once, then set
+    everything up from your phone. No app and no coding.</p>
+  <div class="art"><img src="../images/app-check-glyphs.png" alt="The sign preview in the app"></div>
+  <div class="foot"><span>github.com/maciejfic/led-letters</span><span>Firmware 2.0</span></div>
+</section>
+
+<!-- Contents -->
+<section class="page">
+  <h2>Contents</h2>
+  <p class="muted">You only do steps 1 to 4 once. After that, the sign remembers everything.</p>
+  <ol class="toc">
+    <li><span>1</span><span>What you need</span><span class="d">a few things to have ready</span></li>
+    <li><span>2</span><span>Install the software</span><span class="d">once, from your computer's browser</span></li>
+    <li><span>3</span><span>Connect the glyphs</span><span class="d">soldering and wiring</span></li>
+    <li><span>4</span><span>Set up from your phone</span><span class="d">join the hotspot, add your glyphs</span></li>
+    <li><span>5</span><span>Connect to your Wi-Fi</span><span class="d">optional</span></li>
+    <li><span>6</span><span>Everyday use</span><span class="d">effects, colours, brightness</span></li>
+    <li><span>7</span><span>The button</span><span class="d">use the sign without a phone</span></li>
+    <li><span>8</span><span>Power and safety</span><span class="d">please read</span></li>
+    <li><span>9</span><span>If something is not right</span><span class="d">quick fixes</span></li>
+  </ol>
+
+  <div class="note" style="margin-top:10mm"><b>A word about "glyphs"</b>
+    A glyph is one printed piece of your sign: a letter, a digit or a symbol. You can use the letters A–Z,
+    the digits 0–9 and the symbols &amp;, @, # and ♥, up to six of them in one sign.</div>
+</section>
+
+<!-- 1 -->
+<section class="page">
+  <div class="stephead"><span class="num">1</span><h2>What you need</h2></div>
+  <table>
+    <tr><th>Item</th><th>Notes</th></tr>
+    <tr><td>Your glyphs</td><td>Printed and fitted with LED strip (see step 3). Up to six in one sign.</td></tr>
+    <tr><td>The controller</td><td>A small ESP32-C3 board with a USB-C socket and two tiny buttons.</td></tr>
+    <tr><td>A USB-C cable</td><td>One that carries data, not only charging, for installing the software.</td></tr>
+    <tr><td>A power supply</td><td>A good USB phone charger (1 A or more) for up to four glyphs. For five or six glyphs, a stable 5 V supply (see step 8).</td></tr>
+    <tr><td>A computer</td><td>Only for installing the software once. Chrome or Edge browser, Windows, Mac or Linux.</td></tr>
+    <tr><td>A phone</td><td>Any smartphone with Wi-Fi and a web browser. No app needed.</td></tr>
+  </table>
+
+  <h3>How it works</h3>
+  <p>The controller sends light to the glyphs one after another, like a chain. It also makes its own
+    small Wi-Fi network, called a <b>hotspot</b>. You join it with your phone and a page opens where you set
+    everything up. Your home Wi-Fi is not needed, but you can connect the sign to it later if you like.</p>
+</section>
+
+<!-- 2 -->
+<section class="page">
+  <div class="stephead"><span class="num">2</span><h2>Install the software</h2></div>
+  <p>You do this once, before connecting the glyphs. It takes about two minutes and nothing needs to be installed on your computer.</p>
+
+  <ol class="steps">
+    <li><b>Download the software.</b> Go to <b>github.com/maciejfic/led-letters/releases</b> and download the
+      file <code>led-letters-esp32c3-full.bin</code> from the newest version.</li>
+    <li><b>Plug the controller into your computer</b> with the USB-C cable.</li>
+    <li><b>Open the installer page</b> in Chrome or Edge: <b>espressif.github.io/esptool-js</b>.
+      This is the official tool from the maker of the chip.</li>
+    <li><b>Click "Connect"</b> and choose the controller from the list. It is usually called
+      "USB JTAG/serial debug unit". Click "Connect" in the small window.</li>
+    <li><b>Choose the file.</b> In the "Flash Address" box type <code>0x0</code>, then click
+      "Choose File" and select the file you downloaded.</li>
+    <li><b>Click "Program"</b> and wait until it says it has finished.</li>
+    <li><b>Unplug the controller.</b> The software is installed.</li>
+  </ol>
+
+  <div class="note"><b>The controller is not in the list?</b>
+    Try another USB-C cable: some only charge. Still nothing? Hold the button marked <b>BOOT</b>, press
+    and release <b>RESET</b>, let go of BOOT and click "Connect" again.</div>
+
+  <div class="note"><b>Updating later</b>
+    To install a newer version and keep your settings, use the file <code>led-letters-esp32c3-update.bin</code>
+    with Flash Address <code>0x10000</code>. The "full" file starts fresh and forgets your glyphs and Wi-Fi.</div>
+
+  <p class="small">Prefer the Arduino IDE? The GitHub page has instructions for that too.</p>
+</section>
+
+<!-- 3 -->
+<section class="page">
+  <div class="stephead"><span class="num">3</span><h2>Connect the glyphs</h2></div>
+  <div class="coming"><b style="color:var(--ink)">Soldering and wiring guide coming soon.</b><br>
+    It will show how to fit the LED strip into each glyph, join the glyphs and connect the controller.</div>
+
+  <h3>Good to know before you start</h3>
+  <ul>
+    <li>The glyphs are connected in a <b>chain</b>. The controller's wire goes into the <b>first glyph</b>,
+      that one passes the signal on to the second, and so on.</li>
+    <li>The order of the chain is the order you will enter in the app, and normally the order you read the sign,
+      from left to right.</li>
+    <li>Each glyph has a standard number of LEDs. If you fit yours differently, that's fine: you can tell the app
+      the real number later.</li>
+  </ul>
+</section>
+
+<!-- 4 -->
+<section class="page">
+  <div class="stephead"><span class="num">4</span><h2>Set up from your phone</h2></div>
+
+  <div class="split">
+    <div>
+      <h3 style="margin-top:0">Switch on</h3>
+      <p>Plug the controller into its power supply. Before you set it up, the LEDs show a moving rainbow,
+        so you can see right away that everything is connected.</p>
+
+      <h3>Join the hotspot</h3>
+      <ol class="steps">
+        <li>On your phone, open the <b>Wi-Fi settings</b>.</li>
+        <li>Choose the network <b>LED-Letters-Setup</b>. It has no password.</li>
+        <li>The set-up page opens by itself. If it doesn't, open your browser and go to
+          <b>http://192.168.4.1</b></li>
+      </ol>
+      <div class="note"><b>The hotspot is there for 10 minutes</b>
+        After switching on, the hotspot stays available for 10 minutes, and for as long as your phone is
+        connected to it. Missed it? Unplug the sign and plug it back in.</div>
+      <p class="small">Your phone may say "no internet" on this network. That's normal: stay connected.</p>
+    </div>
+    <figure style="margin:0"><div class="phone"><img src="../images/app-first-run.jpg" alt=""></div>
+      <div class="cap">The set-up page on first start</div></figure>
+  </div>
+</section>
+
+<section class="page">
+  <h3 style="margin-top:0">Add your glyphs</h3>
+  <div class="split">
+    <div>
+      <ol class="steps">
+        <li><b>Tap your glyphs in chain order</b>: first the one the controller's wire goes into, then the next one,
+          and so on. For a sign that reads ♥M&amp;K, tap ♥, M, &amp; and K.</li>
+        <li><b>Check the numbers.</b> Each glyph shows its standard number of LEDs. If yours has a different number,
+          change it with <span class="kbd">−</span> and <span class="kbd">+</span>.</li>
+        <li><b>Fix the order</b> if needed with <span class="kbd">↑</span>, or remove a glyph with <span class="kbd">×</span>.</li>
+        <li><b>Tap "Save and restart".</b> The sign restarts in a few seconds with your glyphs.</li>
+      </ol>
+      <div class="note warn"><b>More than four glyphs?</b>
+        With five or six glyphs the app shows a reminder: they need a very stable power supply (see step 8).
+        Six is the maximum, because more would overload the power the controller can carry.</div>
+    </div>
+    <figure style="margin:0"><div class="phone"><img src="../images/app-glyphs.jpg" alt=""></div>
+      <div class="cap">Four glyphs added</div></figure>
+  </div>
+
+  <h3>Check that it's right</h3>
+  <p>Tap <b>"Check glyphs on the sign"</b> under the Save button. Every glyph lights up in its own colour, and
+    the preview at the top of the app shows what you should see:</p>
+  <img class="wideimg" src="../images/app-check-glyphs.png" alt="Each glyph in its own colour" style="max-width:88mm;margin:2mm auto 3mm">
+  <ul>
+    <li><b>Each glyph is one colour, from its first to its last LED:</b> perfect, you're done.</li>
+    <li><b>A colour runs into the next glyph:</b> the first glyph has more LEDs than you entered. Increase its number.</li>
+    <li><b>The last LEDs of the sign stay dark:</b> a glyph has fewer LEDs than you entered. Find it and decrease its number.</li>
+  </ul>
+  <p>Then choose any effect on the Light page to leave the check.</p>
+</section>
+
+<!-- 5 -->
+<section class="page">
+  <div class="stephead"><span class="num">5</span><h2>Connect to your Wi-Fi <span class="muted" style="font-size:13pt;font-weight:500">optional</span></h2></div>
+  <p>Without Wi-Fi the sign works just the same and keeps all its settings. You can always change things
+    over the hotspot, within 10 minutes of switching it on. Connect it to your home Wi-Fi if you want to change
+    effects at any time, from any phone or computer at home.</p>
+
+  <div class="split">
+    <div>
+      <ol class="steps">
+        <li>While connected to the hotspot, open the <b>Wi-Fi</b> page in the app (bottom bar).</li>
+        <li>Tap <b>Scan</b> and choose your home network, or type its name.</li>
+        <li>Enter your Wi-Fi password and tap <b>Save and connect</b>.</li>
+        <li>Wait up to 20 seconds. The page then shows <b>"Connected"</b> and the sign's address on your network.</li>
+        <li>Connect your phone back to your home Wi-Fi and open the address. <b>Bookmark it</b> or add it to your
+          home screen.</li>
+      </ol>
+      <div class="note"><b>The address</b>
+        On most phones and computers: <b>http://led-letters.local</b><br>
+        If that does not open (some Android phones), use the number shown, for example <b>http://192.168.1.181</b>.
+        You can always find both on the app's Wi-Fi page.</div>
+      <p class="small">Once the sign is on your Wi-Fi, the setup hotspot stays off. To go back to the hotspot, use
+        "Forget network" on the Wi-Fi page, or hold the button for 6 seconds (step 7).</p>
+    </div>
+    <figure style="margin:0"><div class="phone"><img src="../images/app-wifi-joined.jpg" alt=""></div>
+      <div class="cap">Connected, with the sign's address</div></figure>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="page">
+  <div class="stephead"><span class="num">6</span><h2>Everyday use</h2></div>
+  <div class="split">
+    <div>
+      <p>The <b>Light</b> page is where you'll spend most of your time. The picture at the top is a live preview of
+        your sign: it shows the effect you choose before you even look up.</p>
+      <ul>
+        <li><b>On / Off</b>: the switch at the top right.</li>
+        <li><b>Brightness</b> and <b>Speed</b>: the two sliders.</li>
+        <li><b>Effect</b>: tap one of the buttons.</li>
+        <li><b>Colours</b>: some effects use your two colours (below the effects).</li>
+        <li><b>Change effect automatically</b>: let the sign switch effects every few seconds or minutes.</li>
+      </ul>
+      <p>Everything is saved on the sign straight away and kept when it's switched off.</p>
+    </div>
+    <figure style="margin:0"><div class="phone"><img src="../images/app-light.jpg" alt=""></div>
+      <div class="cap">The Light page</div></figure>
+  </div>
+</section>
+
+<section class="page">
+  <h3 style="margin-top:0">The effects</h3>
+  <table>
+    <tr><th>Effect</th><th>What it does</th></tr>
+    <tr><td>Solid</td><td>The whole sign in your main colour.</td></tr>
+    <tr><td>Rainbow</td><td>Rainbow colours running along the sign.</td></tr>
+    <tr><td>Rainbow sweep</td><td>A rainbow moving from left to right across the sign.</td></tr>
+    <tr><td>Rainbow rise</td><td>A rainbow rising from bottom to top.</td></tr>
+    <tr><td>Glyph colors</td><td>Every glyph in its own colour, slowly changing.</td></tr>
+    <tr><td>Gradient wave</td><td>Your two colours flowing across the sign.</td></tr>
+    <tr><td>Heartbeat</td><td>♥ and &amp; beat in your second colour; the other glyphs glow softly in your main colour.</td></tr>
+    <tr><td>Fire</td><td>Flickering flames, hotter at the bottom.</td></tr>
+    <tr><td>Mixed</td><td>A different effect on every glyph, chosen below the colours.</td></tr>
+  </table>
+
+  <div class="split">
+    <div>
+      <h3 style="margin-top:0">Mixed: an effect per glyph</h3>
+      <p>Choose an effect for each glyph, for example fire on the M and a rainbow on the heart.
+        Choosing one switches the sign to Mixed.</p>
+      <h3>Colours</h3>
+      <p>Tap a colour square to pick a colour. The main colour is used by Solid, Gradient wave and Heartbeat;
+        the second colour by Gradient wave and the beating glyphs in Heartbeat.</p>
+    </div>
+    <figure style="margin:0"><div class="phone"><img src="../images/app-colours-mixed.jpg" alt=""></div>
+      <div class="cap">Colours and Mixed</div></figure>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="page">
+  <div class="stephead"><span class="num">7</span><h2>The button</h2></div>
+  <p>The controller's <b>BOOT</b> button works the sign without a phone.</p>
+  <table>
+    <tr><th>Press</th><th>Does</th></tr>
+    <tr><td>Short press</td><td>Next effect. If the sign is off, it turns it on.</td></tr>
+    <tr><td>Hold about 1 second</td><td>Turns the sign on or off.</td></tr>
+    <tr><td>Hold 6 seconds</td><td>The sign blinks blue, forgets your Wi-Fi and opens the setup hotspot again.
+      Your glyphs and effects are kept.</td></tr>
+  </table>
+  <p class="small">The other button, RESET, just restarts the controller.</p>
+</section>
+
+<!-- 8 -->
+<section class="page">
+  <div class="stephead"><span class="num">8</span><h2>Power and safety</h2></div>
+  <ul>
+    <li><b>Up to four glyphs:</b> a good USB phone charger (1 A or more) is enough.</li>
+    <li><b>Five or six glyphs:</b> use a good quality, stable 5 V power supply. If LEDs flicker or change colour,
+      the supply is not stable enough or the wires are too thin.</li>
+    <li><b>Six glyphs is the maximum.</b> More would overload the controller and its wiring.</li>
+  </ul>
+  <div class="split wide">
+    <div>
+      <h3 style="margin-top:0">The power limit</h3>
+      <p>To protect the controller and the wiring, the sign never uses more than its <b>power limit</b>:
+        <b>500 mA</b> unless you change it. When an effect would need more, the sign dims itself a little.</p>
+      <div class="note warn"><b>Raising the limit</b>
+        You can raise it on the <b>System</b> page, but above 500 mA you risk damaging the controller, the wiring
+        and the power supply. Only do it if all of them are made for the higher current.</div>
+      <p>Do not cover the glyphs or leave the sign in direct sunlight. Use it indoors only.</p>
+    </div>
+    <figure style="margin:0;justify-self:center"><div class="phone"><img src="../images/app-system.jpg" alt=""></div>
+      <div class="cap">The System page</div></figure>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="page">
+  <div class="stephead"><span class="num">9</span><h2>If something is not right</h2></div>
+  <table>
+    <tr><th>Problem</th><th>What to do</th></tr>
+    <tr><td>No LEDs light up</td><td>Check the power supply and the cable to the first glyph. Make sure the controller's wire goes into the <b>input</b> of the first glyph.</td></tr>
+    <tr><td>I can't find LED-Letters-Setup</td><td>The hotspot is only there for 10 minutes after switching on, and not at all while the sign is on your Wi-Fi. Unplug the sign and plug it back in. If it is on your Wi-Fi, use its address instead, or hold the button for 6 seconds.</td></tr>
+    <tr><td>The set-up page doesn't open</td><td>Stay connected to LED-Letters-Setup and open <b>http://192.168.4.1</b> in your browser. Turn off mobile data for a moment if your phone keeps leaving the network.</td></tr>
+    <tr><td>Wi-Fi: "Could not join"</td><td>Check the network name and password (they are case-sensitive). The sign needs a 2.4 GHz network; most home routers have one.</td></tr>
+    <tr><td>led-letters.local doesn't open</td><td>Use the number address shown on the app's Wi-Fi page, or look for "led-letters" in your router's list of devices.</td></tr>
+    <tr><td>Colours spill into the next glyph</td><td>An LED count is wrong. Use "Check glyphs on the sign" (step 4) and correct the numbers.</td></tr>
+    <tr><td>LEDs flicker or show random colours</td><td>Use a better power supply or shorter, thicker wires, and lower the brightness.</td></tr>
+    <tr><td>The sign is dimmer than expected</td><td>It is staying under the power limit (step 8). Lower the brightness a little, or use fewer glyphs per controller.</td></tr>
+    <tr><td>I want to start completely fresh</td><td>Install the software again with the "full" file (step 2). That forgets everything.</td></tr>
+  </table>
+
+  <h3>More help</h3>
+  <p>Software, updates and technical details: <b>github.com/maciejfic/led-letters</b><br>
+    3D-printable glyphs: search for <b>"LED Letters"</b> on <b>makerworld.com</b></p>
+</section>
+
+</body>
+</html>
