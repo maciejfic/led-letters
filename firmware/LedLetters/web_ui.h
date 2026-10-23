@@ -90,18 +90,22 @@ label.field{display:block;font-weight:500;margin:16px 0 8px}
 .swatch{width:44px;height:32px;border:1px solid var(--control);border-radius:8px;padding:2px;background:none;cursor:pointer}
 
 /* glyph setup */
-.glyph{display:flex;align-items:center;gap:10px;min-height:56px;border-top:1px solid var(--rule)}
+.glyph{display:flex;align-items:center;gap:8px;min-height:56px;border-top:1px solid var(--rule)}
 .glyph:first-child{border-top:0}
 .glyph .idx{width:18px;color:var(--faint)}
 .glyph .ch{width:34px;font-size:22px;font-weight:600;text-align:center}
-.glyph .lab{flex:1;color:var(--muted)}
+.glyph .lab{flex:1;min-width:0;color:var(--faint);font-size:12px;white-space:nowrap}
 .step{display:flex;align-items:center;border:1px solid var(--control);border-radius:var(--r-ctl);height:36px}
-.step button{width:34px;height:34px;border:0;background:none;cursor:pointer;font-size:18px;color:var(--muted)}
+.step button{width:31px;height:34px;border:0;background:none;cursor:pointer;font-size:18px;color:var(--muted)}
 .step input{width:40px;height:34px;border:0;padding:0;text-align:center;background:none;-moz-appearance:textfield}
 .step input::-webkit-inner-spin-button{-webkit-appearance:none}
-.icon-btn{width:36px;height:36px;border:0;border-radius:8px;background:none;color:var(--muted);cursor:pointer}
+.icon-btn{width:32px;height:36px;border:0;border-radius:8px;background:none;color:var(--muted);cursor:pointer}
 .icon-btn:active{background:var(--active)}
-.keys{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin-top:10px}
+.keys{display:grid;grid-template-columns:repeat(8,1fr);gap:6px}
+.kh{font-size:12px;line-height:16px;color:var(--faint);margin:14px 0 6px}
+.kh:first-child{margin-top:4px}
+/* tell the digit 0 from the letter O: slashed zero where the font has one */
+.keys button,.glyph .ch{font-feature-settings:"zero" 1}
 .keys button{height:44px;border-radius:8px;border:1px solid var(--border);background:var(--surface);
   font-size:16px;font-weight:600;cursor:pointer}
 .keys button:disabled{opacity:.35;cursor:default}
@@ -196,7 +200,7 @@ nav.tabs svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1
     <div class="notice err" id="gErr" hidden></div>
 
     <h2>Add a glyph</h2>
-    <div class="keys" id="keys"></div>
+    <div id="keys"></div>
 
     <div class="actions">
       <button class="btn primary" id="gSave">Save and restart</button>
@@ -395,6 +399,7 @@ requestAnimationFrame(frame);
 // ---------- glyph setup ----------
 const parseSign=t=>t.split(',').filter(Boolean).map(x=>{const[k,n]=x.split(':');return{k,n:+n}});
 const glyph=k=>G.find(x=>x.k===k)||{k,l:k,n:0};
+const kind=l=>/^[A-Z]$/.test(l)?'Letter':/^[0-9]$/.test(l)?'Digit':'Symbol';
 function drawGlyphs(){
   const list=$('glyphList');list.innerHTML='';
   $('glyphPanel').hidden=!sign.length;
@@ -411,7 +416,7 @@ function drawGlyphs(){
     st.append(minus,num,plus);
     const btn=(t,label,f)=>{const b=el('button','icon-btn',t);b.setAttribute('aria-label',label);b.onclick=f;return b};
     const sw=(a,b)=>{if(b<0||b>=sign.length)return;[sign[a],sign[b]]=[sign[b],sign[a]];drawGlyphs()};
-    row.append(el('span','idx num',i+1),el('span','ch',glyph(it.k).l),el('span','lab','LEDs'),st,
+    row.append(el('span','idx num',i+1),el('span','ch',glyph(it.k).l),el('span','lab',kind(glyph(it.k).l)),st,
       btn('↑','Move up',()=>sw(i,i-1)),btn('×','Remove',()=>{sign.splice(i,1);drawGlyphs()}));
     list.appendChild(row);
   });
@@ -512,11 +517,17 @@ $('restart').onclick=()=>{if(confirm('Restart the sign?'))post('/api/restart')};
 // ---------- start ----------
 Promise.all([getj('/api/glyphs'),getj('/api/modes'),getj('/api/state'),getj('/api/layout')]).then(([g,m,s,l])=>{
   G=g;M=m;S=s;L=l;
-  g.forEach(x=>{
-    const b=el('button',null,x.l);b.setAttribute('aria-label','Add '+x.k+', '+x.n+' LEDs');
-    b.onclick=()=>{if(sign.length<S.maxG){sign.push({k:x.k,n:x.n});drawGlyphs()}};
-    $('keys').appendChild(b);
-  });
+  // the grid is split into letters, digits and symbols, so the digit 0 and the letter O can't be mixed up
+  [['Letters',/^[A-Z]$/],['Digits',/^[0-9]$/],['Symbols',/./]].reduce((left,[title,re])=>{
+    const mine=left.filter(x=>re.test(x.l)),grid=el('div','keys');
+    $('keys').append(el('div','kh',title),grid);
+    mine.forEach(x=>{
+      const b=el('button',null,x.l);b.setAttribute('aria-label','Add '+kind(x.l).toLowerCase()+' '+x.l+', '+x.n+' LEDs');
+      b.onclick=()=>{if(sign.length<S.maxG){sign.push({k:x.k,n:x.n});drawGlyphs()}};
+      grid.appendChild(b);
+    });
+    return left.filter(x=>!mine.includes(x));
+  },g);
   m.forEach((x,i)=>{
     if(x.t)return;
     const b=el('button','mode',x.n);b.dataset.m=i;b.onclick=()=>set({mode:i});
