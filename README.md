@@ -30,7 +30,7 @@ The printable glyphs (case, LED insert and diffuser for every letter, digit and 
 ## Quick start
 
 1. **Print and build** the glyphs from MakerWorld and chain them (data in → data out).
-2. **Wire** the first glyph to an ESP32-C3: data to **GPIO 3**, 5 V and GND. See [docs/hardware.md](docs/hardware.md).
+2. **Wire** the first glyph to an ESP32-C3: data to **GPIO 4**, 5 V and GND. See [docs/hardware.md](docs/hardware.md).
 3. **Flash** the firmware from your browser, no software to install: download
    `led-letters-esp32c3-full.bin` from [Releases](https://github.com/maciejfic/led-letters/releases)
    and follow [docs/flashing.md](docs/flashing.md).
@@ -47,7 +47,7 @@ The step-by-step guide with screenshots is [docs/user-guide/led-letters-user-gui
 | 5 V power supply | USB from a phone charger for small signs; a stable 5 V supply for 5–6 glyphs. |
 | 330 Ω resistor (optional) | In series with the data line, close to the first LED. |
 
-Default pins: LED data **GPIO 3**, button **GPIO 9** (the on-board BOOT button).
+Default pins: LED data **GPIO 4**, button **GPIO 9** (the on-board BOOT button).
 Details and wiring: [docs/hardware.md](docs/hardware.md).
 
 ## Repository layout

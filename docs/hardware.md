@@ -17,7 +17,7 @@
  ESP32-C3                    first glyph                     next glyph
  ┌──────────┐               ┌──────────────┐               ┌──────────────┐
  │       5V ├───────────────┤ 5V       5V  ├───────────────┤ 5V           │
- │   GPIO 3 ├──[330 Ω]──────┤ DIN     DOUT ├───────────────┤ DIN     ...  │
+ │   GPIO 4 ├──[330 Ω]──────┤ DIN     DOUT ├───────────────┤ DIN     ...  │
  │      GND ├───────────────┤ GND     GND  ├───────────────┤ GND          │
  └──────────┘               └──────────────┘               └──────────────┘
 ```
@@ -32,17 +32,17 @@
 
 | Function | Default | Change in |
 |---|---|---|
-| LED data | GPIO 3 | `LED_PIN` in `firmware/LedLetters/config.h` |
+| LED data | GPIO 4 | `LED_PIN` in `firmware/LedLetters/config.h` |
 | Button | GPIO 9 (on-board BOOT) | `BUTTON_PIN` |
 
 Avoid GPIO 2, 8 and 9 for the LEDs (they decide how the chip boots), GPIO 18/19 (USB) and
-GPIO 12–17 (flash on most modules). GPIO 0, 1, 4, 5, 6, 7 and 10 are free.
+GPIO 12–17 (flash on most modules). GPIO 0, 1, 3, 5, 6, 7 and 10 are free.
 
 ### Data signal level
 
 The ESP32 outputs 3.3 V data; WS2812B LEDs formally want about 3.5 V at 5 V supply. With a short
 wire (under about 30 cm) it works reliably. If the first LEDs flicker or show random colours, add a
-74AHCT125 / SN74AHCT1G125 level shifter between GPIO 3 and DIN.
+74AHCT125 / SN74AHCT1G125 level shifter between GPIO 4 and DIN.
 
 ## Power
 

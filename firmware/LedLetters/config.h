@@ -4,7 +4,7 @@
 #define FW_VERSION    "2.0.0"
 
 // Hardware (constants, not macros: FastLED uses names like DATA_PIN internally)
-constexpr uint8_t LED_PIN    = 3;
+constexpr uint8_t LED_PIN    = 4;
 constexpr uint8_t BUTTON_PIN = 9;     // on-board BOOT button
 // LED chip and colour order are set in effectsInit() (WS2812B, GRB)
 
