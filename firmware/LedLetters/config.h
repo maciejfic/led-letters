@@ -1,7 +1,7 @@
 #pragma once
 #include <stdint.h>
 
-#define FW_VERSION    "2.0.0"
+#define FW_VERSION    "2.0.1"
 
 // Hardware (constants, not macros: FastLED uses names like DATA_PIN internally)
 constexpr uint8_t LED_PIN    = 4;

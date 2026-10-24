@@ -7,7 +7,7 @@
 | ESP32-C3 board with USB-C | Tested with an ESP32-C3 "SuperMini" style board (USB-C, BOOT and RESET buttons). |
 | WS2812B LED strip, 5 V | 10 mm wide, 60 LEDs per metre, cut into the pocket lengths of each glyph insert. |
 | Connectors | JST SM 3-pin pigtails on every glyph's IN and OUT, so the glyphs plug together. |
-| Wire | 20 AWG silicone wire for the jumpers behind the insert; 0.8 mm silver-plated copper wire for pad-to-pad links on curves and for bridges across shared slots. |
+| Wire | All 24 AWG: silicone-insulated jumpers routed behind the insert along the case wall, and bare 24 AWG silver-plated wire for pad-to-pad links on curves and for bridges. |
 | 5 V power supply | See [Power](#power). |
 | 330 Ω resistor (optional) | In series with the data line, as close to the first LED as possible. |
 | 470–1000 µF capacitor (optional) | Across 5 V and GND at the start of the chain. Protects the first LED at power-on. |
@@ -34,7 +34,8 @@
   **14 x 16 mm**), so a soldered JST SM 3-pin plug passes through.
 
 > **JST SM connectors are rated 3 A per contact.** The 5 V and GND current of every glyph after it
-> flows through each connector, so keep the total under 3 A (the default 500 mA limit is well below).
+> flows through each connector, so keep the total under 3 A. The 24 AWG wiring is fine at the default
+> 500 mA limit; raise the limit only if connectors, wiring and supply are rated for it.
 
 ### Pins
 
